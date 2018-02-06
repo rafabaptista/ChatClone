@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="largura_logo">200dp</dimen>
+    <dimen name="altura_logo">163dp</dimen>
+    <dimen name="tamanho_caixa_codigo_validacao">150dp</dimen>
+    <dimen name="imagem_novo_usuario_largura">150dp</dimen>
+    <dimen name="imagem_novo_usuario_altura">113dp</dimen>
+</resources>

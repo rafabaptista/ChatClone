@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="16dp"
+    tools:context="br.com.whatsappandroid.cursoandroid.whatsapp.activity.LoginActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/largura_logo"
+        android:layout_height="@dimen/altura_logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/logo" />
+
+    <EditText
+        android:id="@+id/editTextNome"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="Digite seu nome."
+        android:inputType="textPersonName"
+        android:textColor="@color/textColorPrimary" />
+
+    <EditText
+        android:id="@+id/editTextCodigoPais"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextNome"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="+55"
+        android:inputType="number"
+        android:textColor="@color/textColorPrimary" />
+
+    <EditText
+        android:id="@+id/editTextDdd"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/editTextCodigoPais"
+        android:layout_alignBottom="@+id/editTextCodigoPais"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/editTextCodigoPais"
+        android:ems="10"
+        android:hint="11"
+        android:inputType="number"
+        android:textColor="@color/textColorPrimary" />
+
+    <EditText
+        android:id="@+id/editTextTelefone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonCadastrarTelefone"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/editTextDdd"
+        android:ems="10"
+        android:hint="99555-5555"
+        android:inputType="number"
+        android:textColor="@color/textColorPrimary" />
+
+    <Button
+        android:id="@+id/buttonCadastrarTelefone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextCodigoPais"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/botao_cadastrar"
+        android:textColor="@color/textColorPrimary" />
+
+
+</RelativeLayout>

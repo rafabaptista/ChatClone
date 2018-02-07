@@ -1,6 +1,7 @@
 package br.com.whatsappandroid.cursoandroid.whatsapp.activity;
 
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,13 +17,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import br.com.whatsappandroid.cursoandroid.whatsapp.R;
+import br.com.whatsappandroid.cursoandroid.whatsapp.adapter.TabAdapter;
 import br.com.whatsappandroid.cursoandroid.whatsapp.config.ConfiguracaoFirebase;
+import br.com.whatsappandroid.cursoandroid.whatsapp.helper.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference firebase;
     private FirebaseAuth autenticacao;
 
+    private SlidingTabLayout slidingTabLayout;
+    private ViewPager viewPager;
 
     private Toolbar toolbar;
 
@@ -39,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("WhatsApp");
         setSupportActionBar(toolbar);
 
+
+        slidingTabLayout = findViewById(R.id.stl_tabs);
+        viewPager = findViewById(R.id.vp_pagina);
+
+        //Configurar adapter
+        TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
+
+        viewPager.setAdapter(tabAdapter);
+
+        slidingTabLayout.setViewPager(viewPager);
     }
 
     @Override

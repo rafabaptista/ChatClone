@@ -1,6 +1,7 @@
 package br.com.whatsappandroid.cursoandroid.whatsapp.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import br.com.whatsappandroid.cursoandroid.whatsapp.R;
 import br.com.whatsappandroid.cursoandroid.whatsapp.config.ConfiguracaoFirebase;
+import br.com.whatsappandroid.cursoandroid.whatsapp.helper.Base64Custom;
+import br.com.whatsappandroid.cursoandroid.whatsapp.helper.Preferencias;
 import br.com.whatsappandroid.cursoandroid.whatsapp.model.Usuario;
 
 public class CadastroUsuarioActivity extends AppCompatActivity {
@@ -85,12 +88,20 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Toast.makeText(CadastroUsuarioActivity.this, "Sucesso ao cadastrar Usuário", Toast.LENGTH_LONG).show();
 
-                    FirebaseUser usuarioFirebase = task.getResult().getUser();
-                    usuario.setId( usuarioFirebase.getUid() ); //vamos usar o UID gerado no email do firebase
+                    String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+
+                    //FirebaseUser usuarioFirebase = task.getResult().getUser();
+                    usuario.setId( identificadorUsuario ); //vamos usar o UID gerado no email do firebase
                     usuario.salvar();
 
-                    autenticacao.signOut(); // desloga usuário
-                    finish(); // finaliza activity
+                    Preferencias preferencias = new Preferencias(CadastroUsuarioActivity.this);
+                    preferencias.salvarDados(identificadorUsuario);
+
+                    abrirLoginUsuario();
+
+
+                    //autenticacao.signOut(); // desloga usuário
+                    //finish(); // finaliza activity
                 } else {
 
                     String erroExcecao = "";
@@ -112,6 +123,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void abrirLoginUsuario() {
+        Intent intent = new Intent(CadastroUsuarioActivity.this, LoginEmailActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void showMessageBuilder(String titulo, String mensagem ) {

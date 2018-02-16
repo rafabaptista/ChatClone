@@ -89,11 +89,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 //Salvar dados para validação
                 Preferencias preferencias = new Preferencias(getApplicationContext());
-                preferencias.salvarUsuarioPreferencia(nomeUsuario, telefoneCompleto, token);
+                //preferencias.salvarUsuarioPreferencia(nomeUsuario, telefoneCompleto, token);
 
-                HashMap<String, String> usuario = preferencias.getDadosUsuario();
+                //HashMap<String, String> usuario = preferencias.getDadosUsuario();
 
-                Log.i("TOKEN", "T: " + usuario.get("token") + " Nome: " + usuario.get("nome") + " Telefone: " + usuario.get("telefone"));
+                //Log.i("TOKEN", "T: " + usuario.get("token") + " Nome: " + usuario.get("nome") + " Telefone: " + usuario.get("telefone"));
 
                 //Envio de SMS - precisa do +
                 boolean enviadoSMS = enviaSMS("+" + telefoneCompleto, mensagemEnvio);

@@ -27,31 +27,31 @@ public class ValidadorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validador);
 
-        codigoValidacao = findViewById(R.id.editTextCodigoValidacao);
-        botaoValidar = findViewById(R.id.buttonValidar);
-
-        SimpleMaskFormatter simpleMaskCodigoValidacao = new SimpleMaskFormatter("NNNN");
-        MaskTextWatcher maskCodigoValidacao = new MaskTextWatcher(codigoValidacao, simpleMaskCodigoValidacao);
-
-        codigoValidacao.addTextChangedListener(maskCodigoValidacao);
-
-        botaoValidar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //recuperar dados das preferências do usuário
-                Preferencias preferencias = new Preferencias(ValidadorActivity.this);
-
-                HashMap<String, String> usuario = preferencias.getDadosUsuario();
-
-                String tokenGerado = usuario.get("token");
-                String tokenDigitado = codigoValidacao.getText().toString();
-
-                if(tokenDigitado.equals(tokenGerado)){
-                    Toast.makeText(ValidadorActivity.this, "Token Validado!!", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(ValidadorActivity.this, "Token NÃO Validado!!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+//        codigoValidacao = findViewById(R.id.editTextCodigoValidacao);
+//        botaoValidar = findViewById(R.id.buttonValidar);
+//
+//        SimpleMaskFormatter simpleMaskCodigoValidacao = new SimpleMaskFormatter("NNNN");
+//        MaskTextWatcher maskCodigoValidacao = new MaskTextWatcher(codigoValidacao, simpleMaskCodigoValidacao);
+//
+//        codigoValidacao.addTextChangedListener(maskCodigoValidacao);
+//
+//        botaoValidar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //recuperar dados das preferências do usuário
+//                Preferencias preferencias = new Preferencias(ValidadorActivity.this);
+//
+//                HashMap<String, String> usuario = preferencias.getDadosUsuario();
+//
+//                String tokenGerado = usuario.get("token");
+//                String tokenDigitado = codigoValidacao.getText().toString();
+//
+//                if(tokenDigitado.equals(tokenGerado)){
+//                    Toast.makeText(ValidadorActivity.this, "Token Validado!!", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(ValidadorActivity.this, "Token NÃO Validado!!", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
     }
 }

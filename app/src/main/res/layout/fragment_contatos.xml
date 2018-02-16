@@ -5,10 +5,14 @@
     tools:context="br.com.whatsappandroid.cursoandroid.whatsapp.fragment.ContatosFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/titulo_contatos" />
+        android:id="@+id/lv_Contatos"
+        android:layout_gravity="center_horizontal|top"
+        android:divider="@color/cinza"
+        android:dividerHeight="1dp"/>
 
 </FrameLayout>

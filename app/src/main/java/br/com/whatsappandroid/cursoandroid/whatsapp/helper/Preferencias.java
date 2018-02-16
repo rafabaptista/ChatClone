@@ -21,6 +21,8 @@ public class Preferencias {
     private final String CHAVE_TELEFONE = "telefone";
     private final String CHAVE_TOKEN = "token";
 
+    private final String CHAVE_IDENTIFICADOR = "identificadorUsuarioLogado";
+
     public Preferencias(Context contextoParametros){
 
         contexto = contextoParametros;
@@ -29,20 +31,14 @@ public class Preferencias {
 
     }
 
-    public void salvarUsuarioPreferencia(String nome, String telefone, String token){
-        editor.putString(CHAVE_NOME, nome);
-        editor.putString(CHAVE_TELEFONE, telefone);
-        editor.putString(CHAVE_TOKEN, token);
+    public void salvarDados(String identificadorUsuario){
+        editor.putString(CHAVE_IDENTIFICADOR, identificadorUsuario);
         editor.commit();
     }
 
-    public HashMap<String, String> getDadosUsuario(){
-        HashMap<String, String> dadosUsuario = new HashMap<>();
-
-        dadosUsuario.put(CHAVE_NOME, sharedPreferences.getString(CHAVE_NOME, null));
-        dadosUsuario.put(CHAVE_TELEFONE, sharedPreferences.getString(CHAVE_TELEFONE, null));
-        dadosUsuario.put(CHAVE_TOKEN, sharedPreferences.getString(CHAVE_TOKEN, null));
-
-        return dadosUsuario;
+    public String getIdentificador() {
+        return sharedPreferences.getString(CHAVE_IDENTIFICADOR, null);
     }
+
+
 }

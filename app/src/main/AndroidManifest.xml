@@ -21,7 +21,26 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.ValidadorActivity" />
-        <activity android:name=".activity.CadastroUsuarioActivity"></activity>
+        <activity android:name=".activity.CadastroUsuarioActivity"
+            android:label="CadastroUsuarioActivity"
+            android:parentActivityName=".activity.MainActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity">
+            </meta-data>
+
+        </activity>
+
+        <activity
+            android:name=".activity.ConversaActivity"
+            android:parentActivityName=".activity.MainActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity">
+            </meta-data>
+        </activity>
     </application>
 
 </manifest>

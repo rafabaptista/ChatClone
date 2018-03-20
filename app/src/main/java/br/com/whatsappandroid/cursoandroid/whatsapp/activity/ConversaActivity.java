@@ -18,9 +18,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import br.com.whatsappandroid.cursoandroid.whatsapp.R;
+import br.com.whatsappandroid.cursoandroid.whatsapp.adapter.MensagemAdapter;
 import br.com.whatsappandroid.cursoandroid.whatsapp.config.ConfiguracaoFirebase;
 import br.com.whatsappandroid.cursoandroid.whatsapp.helper.Base64Custom;
 import br.com.whatsappandroid.cursoandroid.whatsapp.helper.Preferencias;
+import br.com.whatsappandroid.cursoandroid.whatsapp.model.Conversa;
 import br.com.whatsappandroid.cursoandroid.whatsapp.model.Mensagem;
 
 public class ConversaActivity extends AppCompatActivity {
@@ -39,9 +41,10 @@ public class ConversaActivity extends AppCompatActivity {
 
     //dados remetente
     private String idUsuarioRemetente;
+    private String nomeUsuarioRemetente;
 
-    private ArrayList<String> mensagens;
-    private ArrayAdapter adapter;
+    private ArrayList<Mensagem> mensagens;
+    private ArrayAdapter<Mensagem> adapter;
 
     private ListView listview;
 
@@ -61,6 +64,7 @@ public class ConversaActivity extends AppCompatActivity {
         //recuperar dados do usuário logado
         Preferencias preferencias = new Preferencias(ConversaActivity.this);
         idUsuarioRemetente = preferencias.getIdentificador();
+        nomeUsuarioRemetente = preferencias.getNome();
 
 
         Bundle extra = getIntent().getExtras(); //passar dados entre um activity e outra
@@ -79,11 +83,12 @@ public class ConversaActivity extends AppCompatActivity {
         //monta listview e adapter
         mensagens = new ArrayList<>();
 
-        adapter = new ArrayAdapter(
-                ConversaActivity.this,
-                android.R.layout.simple_list_item_1,
+
+        adapter = new MensagemAdapter(
+          ConversaActivity.this,
                 mensagens
         );
+
         listview.setAdapter(adapter);
 
         //recupera mensagens do firebase
@@ -106,7 +111,7 @@ public class ConversaActivity extends AppCompatActivity {
                 //recuperar mensagem
                 for(DataSnapshot dados: dataSnapshot.getChildren()){
                     Mensagem mensagem = dados.getValue(Mensagem.class);
-                    mensagens.add(mensagem.getMensagem());
+                    mensagens.add(mensagem);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -134,7 +139,47 @@ public class ConversaActivity extends AppCompatActivity {
                     mensagem.setIdUsuario(idUsuarioRemetente);
                     mensagem.setMensagem(textoMensagem);
 
-                    salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
+                    //salva mensagem para remtente
+                    Boolean retornoMensagemRemetente = salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
+                    if(!retornoMensagemRemetente) {
+                        Toast.makeText(ConversaActivity.this,
+                                "Problema ao salvar mensagem, tente novamente!",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+
+                        //salva mensagem para rdestinatario
+                        Boolean retornoMensagemDestinatario = salvarMensagem(idUsuarioDestinatario, idUsuarioRemetente, mensagem);
+                        if(!retornoMensagemDestinatario) {
+                            Toast.makeText(ConversaActivity.this,
+                                    "Problema ao salvar mensagem, tente novamente!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    //salvar conversa para remetente
+                    Conversa conversa = new Conversa();
+                    conversa.setIdusuario(idUsuarioDestinatario);
+                    conversa.setNome(nomeUsuarioDestinatario);
+                    conversa.setMensagem(textoMensagem);
+                    Boolean retornoConversaDestinatario = salvarConversa(idUsuarioRemetente, idUsuarioDestinatario, conversa);
+                    if(!retornoConversaDestinatario){
+                        Toast.makeText(ConversaActivity.this,
+                                "Problema ao salvar conversa, tente novamente!",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        //salvar conversa para o destinatario
+                        Conversa conversaRemetente = new Conversa();
+                        conversaRemetente.setIdusuario(idUsuarioRemetente);
+                        conversaRemetente.setNome(nomeUsuarioRemetente);
+                        conversaRemetente.setMensagem(textoMensagem);
+                        Boolean retornoConversaRemetente = salvarConversa(idUsuarioDestinatario, idUsuarioRemetente, conversaRemetente);
+                        if(!retornoConversaRemetente){
+                            Toast.makeText(ConversaActivity.this,
+                                    "Problema ao salvar conversa, tente novamente!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
 
                     edit_mensage.setText("");
 
@@ -142,6 +187,19 @@ public class ConversaActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean salvarConversa(String idRemetente, String idDestinatario, Conversa conversa) {
+        try {
+            firebase = ConfiguracaoFirebase.getFirebase().child("conversas");
+            firebase.child( idRemetente)
+                    .child(idDestinatario)
+                    .setValue(conversa); //não usa o push para forçar a sobrescrita no banco (sempre mostrar a ultima mensagem
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  false;
+        }
     }
 
     private boolean salvarMensagem(String idRemetente, String idDestinatario, Mensagem mensagem) {

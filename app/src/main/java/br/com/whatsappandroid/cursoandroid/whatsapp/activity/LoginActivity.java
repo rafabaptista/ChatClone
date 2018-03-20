@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText nome;
 
     private Button botaoCadastrar;
+
+
 
     //PERMISSOES A PARTIR DO SDK 23
     private String[] permissoesNecessarias = new String[]{
